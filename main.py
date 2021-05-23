@@ -29,15 +29,15 @@ FPS = 30
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
-grid = []
-row = []
-for i in range(SCREEN_HEIGHT):
-    grid.append(row)
-    for j in range(SCREEN_WIDTH):
-        row.append(0)
+# grid = []
+# row = []
+# for i in range(SCREEN_HEIGHT):
+#     grid.append(row)
+#     for j in range(SCREEN_WIDTH):
+#         row.append(0)
 
 
-scaling_factor = 20
+# scaling_factor = 20
 scr = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Life')
 cells = []
@@ -169,7 +169,7 @@ def beginLife():
         if (life_count < 2 or life_count > 3):
             scr.set_at((cell.x,cell.y), BLACK)
             cells.pop(index)
-            grid[cell.y][cell.x] = 0
+            # grid[cell.y][cell.x] = 0
 
 
     for el in buffer:
@@ -234,7 +234,7 @@ def main():
             drawInitialState()
             for cell in cells:
                 pygame.draw.rect(scr,WHITE,cell)
-                grid[cell.y][cell.x] = 1
+                # grid[cell.y][cell.x] = 1
 
         # This function will update the contents of the entire display
         pygame.display.update()
