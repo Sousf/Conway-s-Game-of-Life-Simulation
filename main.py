@@ -23,9 +23,10 @@ The rules continue to be applied repeatedly to create further generations.
 
 
 import pygame
+import copy
 pygame.init()
 
-FPS = 30
+FPS = 10
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
@@ -41,6 +42,9 @@ SCREEN_HEIGHT = 1000
 scr = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Life')
 cells = []
+cells.append((100,100))
+cells.append((101,100))
+cells.append((102,100))
 button = pygame.Rect(10, 10, 50, 30)
 
 
@@ -99,29 +103,21 @@ def updateDead(buffer,x,y):
     D_aboveState,D_belowState,D_leftState,D_rightState,D_topLeftState,D_topRightState,D_bottomLeftState,D_bottomRightState = getNeighbours(ded_adjacent)
     living_neighbours = totalLiving( D_aboveState,D_belowState,D_leftState,D_rightState,D_topLeftState,D_topRightState,D_bottomLeftState,D_bottomRightState)
     if (living_neighbours == 3):
-        pygame.draw.rect(scr,WHITE,ded_adjacent)
-        buffer.append(ded_adjacent)
+        # pygame.draw.rect(scr,WHITE,ded_adjacent)
+        buffer.append((x,y))
 
 
 def beginLife():
     # Checking and killing cells
     buffer = []
-    for index,cell in enumerate(cells):
+    to_remove = []
+    new_cells = copy.deepcopy(cells)
+    for index,cell in enumerate(new_cells):
 
-        aboveState,belowState,leftState,rightState,topLeftState,topRightState,bottomLeftState,bottomRightState = getNeighbours(cell)
+        Rcell = pygame.Rect(cell[0],cell[1],1,1)
+        aboveState,belowState,leftState,rightState,topLeftState,topRightState,bottomLeftState,bottomRightState = getNeighbours(Rcell)
 
 
-        # print(cell.x,cell.y)
-
-        # Identifying all neighbouring cells
-        # aboveState = scr.get_at((cell.x,cell.y - 1))
-        # belowState = scr.get_at((cell.x,cell.y + 1))
-        # leftState = scr.get_at((cell.x - 1,cell.y))
-        # rightState = scr.get_at((cell.x + 1,cell.y))
-        # topLeftState = scr.get_at((cell.x - 1,cell.y - 1))
-        # topRightState = scr.get_at((cell.x + 1,cell.y - 1))
-        # bottomLeftState = scr.get_at((cell.x - 1,cell.y + 1))
-        # bottomRightState = scr.get_at((cell.x + 1,cell.y + 1))
 
         # print(aboveState)
         life_count = 0
@@ -129,51 +125,60 @@ def beginLife():
         if (aboveState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer, cell.x, cell.y - 1)
+            updateDead(buffer, Rcell.x, Rcell.y - 1)
 
         if (belowState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x,cell.y + 1)
+            updateDead(buffer,Rcell.x,Rcell.y + 1)
 
         if (leftState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x - 1,cell.y)
+            updateDead(buffer,Rcell.x - 1,Rcell.y)
 
         if (rightState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x + 1,cell.y)
+            updateDead(buffer,Rcell.x + 1,Rcell.y)
 
         if (topLeftState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x - 1,cell.y - 1)
+            updateDead(buffer,Rcell.x - 1,Rcell.y - 1)
 
         if (topRightState == WHITE):
             life_count += 1
         else: 
-            updateDead(buffer,cell.x + 1,cell.y - 1)
+            updateDead(buffer,Rcell.x + 1,Rcell.y - 1)
 
         if (bottomLeftState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x - 1,cell.y + 1)
+            updateDead(buffer,Rcell.x - 1,Rcell.y + 1)
 
         if (bottomRightState == WHITE):
             life_count += 1
         else:
-            updateDead(buffer,cell.x + 1,cell.y + 1)
+            updateDead(buffer,Rcell.x + 1,Rcell.y + 1)
 
         if (life_count < 2 or life_count > 3):
-            scr.set_at((cell.x,cell.y), BLACK)
-            cells.pop(index)
-            # grid[cell.y][cell.x] = 0
+            # Current problem, removing cell too soon, affect subsequent cells
+            to_remove.append(cell)
+            # scr.set_at((Rcell.x,Rcell.y), BLACK)
+            # removed = cell
+            # cells.remove(cell)
 
 
+    
+    buffer = set(buffer)
+    for ded in to_remove:
+        scr.set_at((ded[0],ded[1]), BLACK)
+        cells.remove(ded)
     for el in buffer:
-        cells.append(el)
+        cells.append((el[0],el[1]))
+        scr.set_at((el[0],el[1]), WHITE)
+
     print(len(cells))
 
 
@@ -231,9 +236,13 @@ def main():
             beginLife()
         else:
             # Draw white pixels at mouse location
-            drawInitialState()
+            # drawInitialState()
+
+            # rect = pygame.Rect(100,100,1,1)
+            # rect2 = pygame.Rect(101,100,1,1)
+            # rect3 = pygame.Rect(102,100,1,1)
             for cell in cells:
-                pygame.draw.rect(scr,WHITE,cell)
+                pygame.draw.rect(scr,WHITE,pygame.Rect(cell[0],cell[1],1,1))
                 # grid[cell.y][cell.x] = 1
 
         # This function will update the contents of the entire display
