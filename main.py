@@ -26,7 +26,7 @@ import pygame
 import copy
 pygame.init()
 
-FPS = 10
+FPS = 200
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
@@ -42,9 +42,32 @@ SCREEN_HEIGHT = 1000
 scr = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Life')
 cells = []
-cells.append((100,100))
-cells.append((101,100))
-cells.append((102,100))
+
+# Oscillators
+# cells.append((100,100))
+# cells.append((101,100))
+# cells.append((102,100))
+
+
+# Still lifes
+# cells.append((100,100))
+# cells.append((101,100))
+# cells.append((100,101))
+# cells.append((101,101))
+
+
+# Beacon
+# cells.append((100,100))
+# cells.append((101,100))
+# cells.append((100,101))
+# cells.append((101,101))
+
+# cells.append((102,102))
+# cells.append((103,102))
+# cells.append((102,103))
+# cells.append((103,103))
+
+
 button = pygame.Rect(10, 10, 50, 30)
 
 
@@ -193,11 +216,12 @@ def drawInitialState():
 
 
         rect = pygame.Rect(x,y,1,1)
-        if (len(rect.collidelistall(cells)) == 0):
+        # if (len(rect.collidelistall(cells)) == 0):
             # scr.set_at((x,y), WHITE)
             # pygame.draw.rect(scr,WHITE,rect)
-            cells.append(rect)
-            print(len(cells))
+        cells.append((x,y))
+        pygame.draw.rect(scr,WHITE,rect)
+        print(len(cells))
 
 
 
@@ -236,7 +260,7 @@ def main():
             beginLife()
         else:
             # Draw white pixels at mouse location
-            # drawInitialState()
+            drawInitialState()
 
             # rect = pygame.Rect(100,100,1,1)
             # rect2 = pygame.Rect(101,100,1,1)
