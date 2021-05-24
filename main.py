@@ -39,7 +39,7 @@ cells = []
 
 
 """ Below are the predefine seeds for some well known structures in Conway's Simulation
-Uncomment the wanted seed below, and comment out drawInitialState() function in the main while loop to observe """
+Uncomment the wanted seed below as well as the for loop in the else statement of main whileloop, and comment out drawInitialState() function in the main while loop to observe """
 
 # Oscillators
 # cells.append((100,100))
