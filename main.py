@@ -184,11 +184,7 @@ def beginLife():
             updateDead(buffer,Rcell.x + 1,Rcell.y + 1)
 
         if (life_count < 2 or life_count > 3):
-            # Current problem, removing cell too soon, affect subsequent cells
             to_remove.append(cell)
-            # scr.set_at((Rcell.x,Rcell.y), BLACK)
-            # removed = cell
-            # cells.remove(cell)
 
 
     
