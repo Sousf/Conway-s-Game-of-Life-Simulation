@@ -255,6 +255,9 @@ def main():
         else:
             # Draw white pixels at mouse location
             drawInitialState()
+            # for cell in cells:
+            #     pygame.draw.rect(scr,WHITE,pygame.Rect(cell[0],cell[1],1,1))
+            # pass
 
         # This function will update the contents of the entire display
         pygame.display.update()
