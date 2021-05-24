@@ -30,18 +30,16 @@ FPS = 200
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
-# grid = []
-# row = []
-# for i in range(SCREEN_HEIGHT):
-#     grid.append(row)
-#     for j in range(SCREEN_WIDTH):
-#         row.append(0)
 
 
 # scaling_factor = 20
 scr = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Life')
 cells = []
+
+
+""" Below are the predefine seeds for some well known structures in Conway's Simulation
+Uncomment the wanted seed below, and comment out drawInitialState() function in the main while loop to observe """
 
 # Oscillators
 # cells.append((100,100))
@@ -261,13 +259,6 @@ def main():
         else:
             # Draw white pixels at mouse location
             drawInitialState()
-
-            # rect = pygame.Rect(100,100,1,1)
-            # rect2 = pygame.Rect(101,100,1,1)
-            # rect3 = pygame.Rect(102,100,1,1)
-            for cell in cells:
-                pygame.draw.rect(scr,WHITE,pygame.Rect(cell[0],cell[1],1,1))
-                # grid[cell.y][cell.x] = 1
 
         # This function will update the contents of the entire display
         pygame.display.update()
